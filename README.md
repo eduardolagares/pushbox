@@ -1,6 +1,10 @@
 # PUSHBOX
 
-Pushbox is an open-source project created to centralize your push notifications. 
+Pushbox is an open-source project created to centralize your push notifications. It provides an API to your devices register and subscribes and also provides an API to send notifications for this devices.
+
+* Support device external reference
+* Support device extra data and tags
+* Support Topics and Subscribes
 
 ## How to Install
 
