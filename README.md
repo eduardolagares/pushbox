@@ -1,7 +1,9 @@
 # PUSHBOX
 
+Pushbox is an open-source project created to centralize your push notifications. 
 
-
+## Providers supported
+- Expo
 
 
 # Documentation
