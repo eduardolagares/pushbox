@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  provider: one
+  system: one
+  external_identifier: MyString
+  provider_identifier: MyString
+  extra_data: 
+  tags: 
+
+two:
+  provider: two
+  system: two
+  external_identifier: MyString
+  provider_identifier: MyString
+  extra_data: 
+  tags: 

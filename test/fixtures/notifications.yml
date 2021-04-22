@@ -1,0 +1,23 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  provider: one
+  destiny: one
+  title: MyString
+  subtitle: MyString
+  body: MyString
+  body_type: html
+  data: {}
+  tag_alias: MyString
+
+
+two:
+  provider: two
+  destiny: two
+  title: MyString
+  subtitle: MyString
+  body: MyString
+  body_type: text
+  data: {}
+  tag_alias: MyString
+  
