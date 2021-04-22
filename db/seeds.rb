@@ -1,17 +1,11 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
-#   Character.create(name: 'Luke', movie: movies.first)
+# Create the expo provider register if it not already exists
+if !Provider.by_alias('expo').exists?
 
-
-Provider.create!({
-    name: "Expo Push Notification",
-    config: {},
-    delivery_class_name: 'ExpoProviderDelivery',
-    synced_topics: false,
-    alias: 'expo'
-})
-
+    Provider.create!({
+        name: "Expo Push Notification",
+        config: {},
+        delivery_class_name: 'ExpoProviderDelivery',
+        synced_topics: false,
+        alias: 'expo'
+    })
+end
