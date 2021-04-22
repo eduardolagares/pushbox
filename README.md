@@ -4,17 +4,21 @@ Pushbox is an open-source project created to centralize your push notifications.
 
 ## How to Install
 
-@TODO: Docker tutorial
+**To Do**
 
-@TODO: osx and linux tutorial
-
+* Create docker tutorial
+* Create osx tutorial
+* Create linux tutorial
 
 ### Providers supported
+
 - Expo
 
-@TODO: GCM
+**To Do**
 
-@TODO: APNS
+* Create GCM Provider
+* Create APNS Provider
+
 
 # Documentation
 
