@@ -1,18 +1,15 @@
-require "test_helper"
+require 'test_helper'
 
 class DeviceTest < ActiveSupport::TestCase
-  test "should has a unique condition for provider_identifier provider_id and system_id" do
-    provider = providers(:one)
-    system = systems(:one)
-    
-    device = Device.new({provider_identifier: '123', provider_id: provider.id, system_id: system.id})
+  subject { build(:device) }
 
-    assert device.valid?
-    assert device.save
+  context 'associations' do
+    should belong_to(:provider)
+    should belong_to(:system)
+  end
 
-    copy_device = Device.new({provider_identifier: '123', provider_id: provider.id, system_id: system.id})
-
-    assert_not copy_device.valid?
-    assert_not copy_device.save
+  context 'validations' do
+    should validate_presence_of(:provider_identifier)
+    should validate_uniqueness_of(:provider_identifier).scoped_to(:provider_id, :system_id)
   end
 end

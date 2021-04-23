@@ -1,5 +1,10 @@
 class Provider < ApplicationRecord
-    include Aliasable
 
-    validates :alias, uniqueness: true
+    has_many :devices
+    has_many :notifications
+
+    include Labelable
+    
+    validates :label, uniqueness: true, presence: true
+    validates :name, presence: true
 end

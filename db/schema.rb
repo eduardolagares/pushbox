@@ -32,7 +32,7 @@ ActiveRecord::Schema.define(version: 2021_04_22_194619) do
     t.string "body"
     t.integer "body_type", null: false
     t.json "data"
-    t.string "tag_alias"
+    t.string "tag"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "destiny_type"
@@ -46,7 +46,7 @@ ActiveRecord::Schema.define(version: 2021_04_22_194619) do
     t.json "config", default: {}
     t.string "delivery_class_name", null: false
     t.boolean "synced_topics", default: false, null: false
-    t.string "alias", null: false
+    t.string "label", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -64,14 +64,14 @@ ActiveRecord::Schema.define(version: 2021_04_22_194619) do
 
   create_table "systems", force: :cascade do |t|
     t.string "name", null: false
-    t.string "alias", null: false
+    t.string "label", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "tags", force: :cascade do |t|
-    t.string "alias", null: false
     t.string "name", null: false
+    t.string "label", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

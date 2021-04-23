@@ -1,5 +1,5 @@
 class Devices::SubscriptionsController < ApplicationController
-  before_action :set_subscription, only: [:show, :update, :destroy]
+  before_action :set_subscription, only: %i[show update destroy]
   before_action :set_device
 
   # GET /device/:device_id/subscriptions
@@ -34,18 +34,19 @@ class Devices::SubscriptionsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_subscription
-      @subscription = Subscription.find(params[:id])
-    end
 
-    # Use callbacks to share common setup or constraints between actions.
-    def set_device
-      @device = Device.find(params[:device_id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_subscription
+    @subscription = Subscription.find(params[:id])
+  end
 
-    # Only allow a list of trusted parameters through.
-    def subscription_params
-      params.permit([:topic_id, :device_id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_device
+    @device = Device.find(params[:device_id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def subscription_params
+    params.permit(%i[topic_id device_id])
+  end
 end

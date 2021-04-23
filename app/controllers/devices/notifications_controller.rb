@@ -1,52 +1,24 @@
 class Devices::NotificationsController < ApplicationController
-    # before_action :set_device, only: [:show, :update, :destroy]
-  
-    # # GET /devices
-    # def index
-    #   @devices = Device.all
-  
-    #   render json: @devices
-    # end
-  
-    # # GET /devices/1
-    # def show
-    #   render json: @device
-    # end
-  
-    # # POST /devices
-    # def create
-    #   @device = Device.new(device_params)
-  
-    #   if @device.save
-    #     render json: @device, status: :created, location: @device
-    #   else
-    #     render json: @device.errors, status: :unprocessable_entity
-    #   end
-    # end
-  
-    # # PATCH/PUT /devices/1
-    # def update
-    #   if @device.update(device_params)
-    #     render json: @device
-    #   else
-    #     render json: @device.errors, status: :unprocessable_entity
-    #   end
-    # end
-  
-    # # DELETE /devices/1
-    # def destroy
-    #   @device.destroy
-    # end
-  
-    # private
-    #   # Use callbacks to share common setup or constraints between actions.
-    #   def set_device
-    #     @device = Device.find(params[:id])
-    #   end
-  
-    #   # Only allow a list of trusted parameters through.
-    #   def device_params
-    #     params.require(:device).permit(:provider_id, :system_id, :external_identifier, :extra_data, :tags)
-    #   end
+  before_action :set_device
+
+  # POST /device/1/notifications
+  def create
+    @notification = Notification.new(notification_params)
+
+    if @notification.save
+      render json: @notification, status: :created
+    else
+      render json: @notification.errors, status: :unprocessable_entity
+    end
   end
-  
+
+  private
+
+  def set_device
+    @device = Device.find(params[:id])
+  end
+
+  def notification_params
+    params.permit(:title, :subtitle, :body, :body_type, :data, :tag)
+  end
+end

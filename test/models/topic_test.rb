@@ -1,7 +1,13 @@
-require "test_helper"
+require 'test_helper'
 
 class TopicTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+  subject { build(:topic) }
+
+  context 'associations' do
+    should have_many(:subscriptions)
+  end
+
+  context 'validations' do
+    should validate_presence_of(:title)
+  end
 end

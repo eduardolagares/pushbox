@@ -1,9 +1,13 @@
 class DevicesController < ApplicationController
-  before_action :set_device, only: [:show, :update, :destroy]
+  before_action :set_device, only: %i[show update destroy]
 
   # GET /devices
   def index
-    @devices = Device.all
+    @devices = Device.by_system_label(params[:system_label]).by_provider_label(params[:provider_label])
+                     .by_external_identifier(params[:external_identifier])
+                     .by_tag(params[:tag])
+                     .page(params[:page] || 1)
+                     .per(params[:per_page] || Kaminari.config.default_per_page)
 
     render json: @devices
   end
@@ -40,47 +44,44 @@ class DevicesController < ApplicationController
   end
 
   private
-    #Find the device before create
-    def find_or_new
-      device = Device.where({
-        provider_identifier: create_device_params[:provider_identifier], 
-        provider_id: create_device_params[:provider_id], 
-        system_id: create_device_params[:system_id]
-      }).take
 
-      device&.update(update_device_params)
-      
-      device ||= Device.new(create_device_params)
-      device
-    end
+  # Find the device before create
+  def find_or_new
+    device = Device.where({
+                            provider_identifier: create_device_params[:provider_identifier],
+                            provider_id: create_device_params[:provider_id],
+                            system_id: create_device_params[:system_id]
+                          }).take
 
-    # Convert param provider_alias in a provider_id
-    def fix_provider_alias_params
-      if !params[:provider_alias].blank?
-        params[:provider_id] = Provider.by_alias(params[:provider_alias]).take&.id
-      end
-    end
+    device&.update(update_device_params)
 
-    # Convert param system_alias in a system_id
-    def fix_system_alias_params
-      if !params[:system_alias].blank?
-        params[:system_id] = System.by_alias(params[:system_alias]).take&.id
-      end
-    end
+    device ||= Device.new(create_device_params)
+    device
+  end
 
-    # Use callbacks to share common setup or constraints between actions.
-    def set_device
-      @device = Device.find(params[:id])
-    end
+  # Convert param provider_label in a provider_id
+  def fetch_provider_by_label
+    params[:provider_id] = Provider.by_label(params[:provider_label]).take&.id unless params[:provider_label].blank?
+  end
 
-    # Only allow a list of trusted parameters through.
-    def create_device_params
-      fix_provider_alias_params
-      fix_system_alias_params
-      params.permit(:provider_id, :system_id, :provider_identifier, :external_identifier, extra_data: {}, tags: [])
-    end
+  # Convert param system_label in a system_id
+  def fetch_system_by_label
+    params[:system_id] = System.by_label(params[:system_label]).take&.id unless params[:system_label].blank?
+  end
 
-    def update_device_params
-      params.permit(:external_identifier, extra_data: {}, tags: [])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_device
+    @device = Device.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def create_device_params
+    fetch_provider_by_label
+    fetch_system_by_label
+    params.permit(:provider_id, :system_id, :provider_identifier, :external_identifier, extra_data: {}, tags: [])
+  end
+
+  def update_device_params
+    params.permit(:external_identifier, extra_data: {}, tags: [])
+  end
 end

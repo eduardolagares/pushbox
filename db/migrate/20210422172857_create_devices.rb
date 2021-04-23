@@ -6,7 +6,7 @@ class CreateDevices < ActiveRecord::Migration[6.1]
       t.string :external_identifier, null: true
       t.string :provider_identifier, null: false
       t.json :extra_data, default: {}
-      t.json :tags, default: []
+      t.json :tags, default: [], array: true
 
       t.timestamps
     end

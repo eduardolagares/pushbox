@@ -1,5 +1,5 @@
 class SystemsController < ApplicationController
-  before_action :set_system, only: [:show, :update, :destroy]
+  before_action :set_system, only: %i[show update destroy]
 
   # GET /systems
   def index
@@ -39,13 +39,14 @@ class SystemsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_system
-      @system = System.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def system_params
-      params.permit(:name, :alias)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_system
+    @system = System.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def system_params
+    params.permit(:name, :label)
+  end
 end

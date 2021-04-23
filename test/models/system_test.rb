@@ -1,22 +1,15 @@
-require "test_helper"
+require 'test_helper'
 
 class SystemTest < ActiveSupport::TestCase
-  test "alias has to be unique truth" do
-    duplicated_alias = 'duplicated_alias'
-    system1 = System.new({
-      name: 'System1',
-      alias: duplicated_alias
-    })
+  subject { build(:system) }
 
-    assert system1.valid?
-    assert system1.save
+  context 'associations' do
+    should have_many(:devices)
+  end
 
-    system2 = System.new({
-      name: 'System2',
-      alias: duplicated_alias
-    })
-
-    assert_not system2.valid?
-    assert_not system2.save
+  context 'validations' do
+    should validate_presence_of(:name)
+    should validate_presence_of(:label)
+    should validate_uniqueness_of(:label)
   end
 end

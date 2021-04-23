@@ -1,24 +1,16 @@
-require "test_helper"
+require 'test_helper'
 
 class ProviderTest < ActiveSupport::TestCase
-  test "alias has to be unique" do
-    duplicated_alias = 'duplicated_alias'
-    provider1 = Provider.new({
-      name: 'Provider1',
-      alias: duplicated_alias,
-      delivery_class_name: 'DeliveryProvider1'
-    })
+  subject { build(:provider) }
 
-    assert provider1.valid?
-    assert provider1.save
+  context 'associations' do
+    should have_many(:devices)
+    should have_many(:notifications)
+  end
 
-    provider2 = Provider.new({
-      name: 'Provider2',
-      alias: duplicated_alias,
-      delivery_class_name: 'DeliveryProvider2'
-    })
-
-    assert_not provider2.valid?
-    assert_not provider2.save
+  context 'validations' do
+    should validate_presence_of(:label)
+    should validate_presence_of(:name)
+    should validate_uniqueness_of(:label)
   end
 end

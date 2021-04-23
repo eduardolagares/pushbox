@@ -1,49 +1,45 @@
-require "test_helper"
+require 'test_helper'
 
 class TopicsControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @topic = topics(:one)
+    @topic = create(:topic)
     @json_schema = {
-      type: "object",
-      required: [:id, :title, :description, :external_identifier]
+      type: 'object',
+      required: %i[id title description external_identifier]
     }
   end
 
-  test "should get index" do
+  test 'should get index' do
     get topics_url, as: :json
     assert_response :success
-    assert JSON::Validator.validate(@json_schema, json_response.first)
+    assert JSON::Validator.validate(@json_schema, json.first)
   end
 
-  test "should create topic" do
+  test 'should create topic' do
     assert_difference('Topic.count') do
-      post topics_url, params: { title: @topic.title, description: @topic.description, external_identifier: @topic.external_identifier }, as: :json
+      new_topic = build(:topic)
+      post topics_url, params: new_topic.as_json, as: :json
     end
-
     assert_response 201
-    assert JSON::Validator.validate(@json_schema, json_response)
+    assert JSON::Validator.validate(@json_schema, json)
   end
 
-  test "should show topic" do
+  test 'should show topic' do
     get topic_url(@topic), as: :json
     assert_response :success
-    assert JSON::Validator.validate(@json_schema, json_response)
+    assert JSON::Validator.validate(@json_schema, json)
   end
 
-  test "should update topic" do
-    new_title = 'new_title'
-    new_description = 'new_description'
-    new_external_identifier = 'new_external_identifier'
-    
-    put topic_url(@topic), params: { title: new_title, description: new_description, external_identifier: new_external_identifier }, as: :json
-    
+  test 'should update topic' do
+    new_topic = build(:topic)
+    put topic_url(@topic), params: new_topic.as_json, as: :json
+
     assert_response 200
 
-    assert JSON::Validator.validate(@json_schema, json_response)
+    assert JSON::Validator.validate(@json_schema, json)
 
-    assert_equal json_response["title"], new_title
-    assert_equal json_response["description"], new_description
-    assert_equal json_response["external_identifier"], new_external_identifier
+    assert_equal json['title'], new_topic.title
+    assert_equal json['description'], new_topic.description
+    assert_equal json['external_identifier'], new_topic.external_identifier
   end
-
 end

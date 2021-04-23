@@ -1,7 +1,14 @@
-require "test_helper"
+require 'test_helper'
 
 class SubscriptionTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+  subject { build(:subscription) }
+
+  context 'associations' do
+    should belong_to(:device)
+    should belong_to(:topic)
+  end
+
+  context 'validations' do
+    should validate_presence_of(:status)
+  end
 end

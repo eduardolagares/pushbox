@@ -1,5 +1,8 @@
 class System < ApplicationRecord
-    include Aliasable
+    
+    has_many :devices
+    include Labelable
 
-    validates :alias, uniqueness: true
+    validates :label, uniqueness: true, presence: true
+    validates :name, presence: true
 end
