@@ -10,14 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20_210_422_194_619) do
+ActiveRecord::Schema.define(version: 2021_04_23_155744) do
+
   create_table "devices", force: :cascade do |t|
     t.integer "provider_id", null: false
     t.integer "system_id", null: false
     t.string "external_identifier"
     t.string "provider_identifier", null: false
-    t.json "extra_data", default: {}
-    t.json "tags", default: []
+    t.json "extra_data", default: "\"\\\"\\\\\\\"{}\\\\\\\"\\\"\""
+    t.json "tags", default: "\"\\\"\\\\\\\"[]\\\\\\\"\\\"\""
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["provider_id"], name: "index_devices_on_provider_id"
@@ -36,7 +37,7 @@ ActiveRecord::Schema.define(version: 20_210_422_194_619) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "destiny_type"
     t.integer "destiny_id"
-    t.index %w[destiny_type destiny_id], name: "index_notifications_on_destiny"
+    t.index ["destiny_type", "destiny_id"], name: "index_notifications_on_destiny"
     t.index ["provider_id"], name: "index_notifications_on_provider_id"
   end
 
@@ -79,6 +80,14 @@ ActiveRecord::Schema.define(version: 20_210_422_194_619) do
     t.string "title", null: false
     t.text "description"
     t.string "external_identifier", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string "name"
+    t.string "api_key"
+    t.integer "role"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

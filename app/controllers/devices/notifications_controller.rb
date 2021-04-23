@@ -4,7 +4,11 @@ module Devices
 
     # POST /device/1/notifications
     def create
+      authorize :notification, :create?
+
       @notification = Notification.new(notification_params)
+      @notification.destiny = @device
+      @notification.provider = @device.provider
 
       if @notification.save
         render json: @notification, status: :created
@@ -16,7 +20,7 @@ module Devices
     private
 
     def set_device
-      @device = Device.find(params[:id])
+      @device = Device.find(params[:device_id])
     end
 
     def notification_params

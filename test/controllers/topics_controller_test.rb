@@ -10,7 +10,7 @@ class TopicsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'should get index' do
-    get topics_url, as: :json
+    get topics_url, as: :json, headers: client_headers
     assert_response :success
     assert JSON::Validator.validate(@json_schema, json.first)
   end
@@ -18,21 +18,21 @@ class TopicsControllerTest < ActionDispatch::IntegrationTest
   test 'should create topic' do
     assert_difference('Topic.count') do
       new_topic = build(:topic)
-      post topics_url, params: new_topic.as_json, as: :json
+      post topics_url, params: new_topic.as_json, as: :json, headers: admin_headers
     end
     assert_response 201
     assert JSON::Validator.validate(@json_schema, json)
   end
 
   test 'should show topic' do
-    get topic_url(@topic), as: :json
+    get topic_url(@topic), as: :json, headers: client_headers
     assert_response :success
     assert JSON::Validator.validate(@json_schema, json)
   end
 
   test 'should update topic' do
     new_topic = build(:topic)
-    put topic_url(@topic), params: new_topic.as_json, as: :json
+    put topic_url(@topic), params: new_topic.as_json, as: :json, headers: admin_headers
 
     assert_response 200
 

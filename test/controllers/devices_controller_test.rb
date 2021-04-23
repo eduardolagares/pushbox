@@ -10,7 +10,8 @@ class DevicesControllerTest < ActionDispatch::IntegrationTest
 
   test 'should get index and validate schema' do
     create(:device)
-    get devices_url, as: :json
+    get devices_url, as: :json, headers: admin_headers
+
     assert JSON::Validator.validate(@json_schema, json.first)
     assert_response :success
   end
@@ -20,7 +21,7 @@ class DevicesControllerTest < ActionDispatch::IntegrationTest
     create(:device, system: system)
     create(:device)
     create(:device)
-    get devices_url({ system_label: system.label }), as: :json
+    get devices_url({ system_label: system.label }), as: :json, headers: admin_headers
     assert_response :success
     assert_equal json.size, 1
   end
@@ -30,7 +31,7 @@ class DevicesControllerTest < ActionDispatch::IntegrationTest
     create(:device, provider: provider)
     create(:device)
     create(:device)
-    get devices_url({ provider_label: provider.label }), as: :json
+    get devices_url({ provider_label: provider.label }), as: :json, headers: admin_headers
     assert_response :success
     assert_equal json.size, 1
   end
@@ -39,7 +40,7 @@ class DevicesControllerTest < ActionDispatch::IntegrationTest
     d1 = create(:device)
     create(:device)
     create(:device)
-    get devices_url({ external_identifier: d1.external_identifier }), as: :json
+    get devices_url({ external_identifier: d1.external_identifier }), as: :json, headers: admin_headers
     assert_response :success
     assert_equal json.size, 1
   end
@@ -49,7 +50,7 @@ class DevicesControllerTest < ActionDispatch::IntegrationTest
     create(:device)
     d3 = create(:device)
     d4 = create(:device)
-    get devices_url({ page: 2, per_page: 2 }), as: :json
+    get devices_url({ page: 2, per_page: 2 }), as: :json, headers: admin_headers
     assert_response :success
     assert_equal 2, json.size
     assert json.map { |d| d['id'] }.include?(d3.id)
@@ -76,7 +77,7 @@ class DevicesControllerTest < ActionDispatch::IntegrationTest
         system_label: new_device.system.label,
         provider_identifier: new_device.provider_identifier,
         tags: new_device.tags
-      }, as: :json
+      }, as: :json, headers: client_headers
     end
 
     assert_response 201
@@ -95,7 +96,7 @@ class DevicesControllerTest < ActionDispatch::IntegrationTest
       provider_label: provider.label,
       provider_identifier: identifier,
       system_label: system.label
-    }, as: :json
+    }, as: :json, headers: client_headers
 
     assert_response 200
     assert JSON::Validator.validate(@json_schema, json)
@@ -103,7 +104,7 @@ class DevicesControllerTest < ActionDispatch::IntegrationTest
 
   test 'should show device' do
     device = create(:device)
-    get device_url(device), as: :json
+    get device_url(device), as: :json, headers: admin_headers
     assert JSON::Validator.validate(@json_schema, json)
     assert_response :success
   end
@@ -111,7 +112,7 @@ class DevicesControllerTest < ActionDispatch::IntegrationTest
   test 'should update device' do
     device = create(:device)
     new_device = build(:device)
-    patch device_url(device), params: new_device.as_json, as: :json
+    patch device_url(device), params: new_device.as_json, as: :json, headers: client_headers
 
     assert JSON::Validator.validate(@json_schema, json)
 

@@ -3,6 +3,7 @@ class DevicesController < ApplicationController
 
   # GET /devices
   def index
+    authorize :device, :index?
     @devices = Device.by_system_label(params[:system_label]).by_provider_label(params[:provider_label])
                      .by_external_identifier(params[:external_identifier])
                      .by_tag(params[:tag])
@@ -14,11 +15,13 @@ class DevicesController < ApplicationController
 
   # GET /devices/1
   def show
+    authorize :device, :show?
     render json: @device
   end
 
   # POST /devices
   def create
+    authorize :device, :create?
     @device = find_or_new
 
     status = @device.id.nil? ? :created : 200
@@ -31,6 +34,7 @@ class DevicesController < ApplicationController
 
   # PATCH/PUT /devices/1
   def update
+    authorize :device, :update?
     if @device.update(update_device_params)
       render json: @device
     else
@@ -40,6 +44,7 @@ class DevicesController < ApplicationController
 
   # DELETE /devices/1
   def destroy
+    authorize :device, :destroy?
     @device.destroy
   end
 

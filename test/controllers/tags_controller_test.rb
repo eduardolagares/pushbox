@@ -6,7 +6,7 @@ class TagsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'should get index' do
-    get tags_url, as: :json
+    get tags_url, as: :json, headers: client_headers
     assert_response :success
   end
 
@@ -16,14 +16,14 @@ class TagsControllerTest < ActionDispatch::IntegrationTest
       post tags_url, params: {
         label: new_tag.label,
         name: new_tag.name
-      }, as: :json
+      }, as: :json, headers: admin_headers
     end
 
     assert_response 201
   end
 
   test 'should show tag' do
-    get tag_url(@tag), as: :json
+    get tag_url(@tag), as: :json, headers: client_headers
     assert_response :success
   end
 
@@ -32,7 +32,7 @@ class TagsControllerTest < ActionDispatch::IntegrationTest
     patch tag_url(@tag), params: {
       label: new_tag.label,
       name: new_tag.name
-    }, as: :json
+    }, as: :json, headers: admin_headers
 
     assert_response 200
     assert_equal json['label'], new_tag.label
@@ -41,7 +41,7 @@ class TagsControllerTest < ActionDispatch::IntegrationTest
 
   test 'should destroy tag' do
     assert_difference('Tag.count', -1) do
-      delete tag_url(@tag), as: :json
+      delete tag_url(@tag), as: :json, headers: admin_headers
     end
 
     assert_response 204

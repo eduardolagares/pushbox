@@ -5,7 +5,7 @@ Rails.application.routes.draw do
 
       resources :devices, except: [:destroy] do
         resources :subscriptions, except: [:update], module: 'devices'
-        resources :notifications, only: [:create]
+        resources :notifications, only: [:create], module: 'devices'
       end
 
       resources :topics, except: [:destroy] do

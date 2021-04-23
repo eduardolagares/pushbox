@@ -3,6 +3,7 @@ class TagsController < ApplicationController
 
   # GET /tags
   def index
+    authorize :tag, :index?
     @tags = Tag.all
 
     render json: @tags
@@ -10,11 +11,13 @@ class TagsController < ApplicationController
 
   # GET /tags/1
   def show
+    authorize :tag, :show?
     render json: @tag
   end
 
   # POST /tags
   def create
+    authorize :tag, :create?
     @tag = Tag.new(tag_params)
 
     if @tag.save
@@ -26,6 +29,7 @@ class TagsController < ApplicationController
 
   # PATCH/PUT /tags/1
   def update
+    authorize :tag, :update?
     if @tag.update(tag_params)
       render json: @tag
     else
@@ -35,6 +39,7 @@ class TagsController < ApplicationController
 
   # DELETE /tags/1
   def destroy
+    authorize :tag, :destroy?
     @tag.destroy
   end
 

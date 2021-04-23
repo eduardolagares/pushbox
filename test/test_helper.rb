@@ -1,10 +1,9 @@
-
 ENV['RAILS_ENV'] ||= 'test'
-SimpleCov.start
+SimpleCov.start 'rails'
+
 require_relative "../config/environment"
 require "rails/test_help"
 require "./test/support/shoulda"
-
 
 module ActiveSupport
   class TestCase
@@ -18,10 +17,26 @@ module ActiveSupport
 
     # Add more helper methods to be used by all tests here...
 
+    def client_headers
+      { "PushBox-Api-Key": client_api_key }.as_json
+    end
+
+    def admin_headers
+      { "PushBox-Api-Key": admin_api_key }.as_json
+    end
+
+    def admin_api_key
+      @user_admin ||= User.create(name: 'user_admin', role: :admin)
+      @user_admin.api_key
+    end
+
+    def client_api_key
+      @user_client ||= User.create(name: 'user_client', role: :client)
+      @user_client.api_key
+    end
+
     def json
       @response.parsed_body
     end
   end
 end
-
-

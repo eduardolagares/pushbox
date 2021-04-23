@@ -5,6 +5,7 @@ module Devices
 
     # GET /device/:device_id/subscriptions
     def index
+      authorize :subscription, :index?
       @subscriptions = Subscription.not_canceled.where(device_id: @device.id)
 
       render json: @subscriptions
@@ -12,11 +13,14 @@ module Devices
 
     # GET /device/1/subscriptions/1
     def show
+      authorize :subscription, :show?
       render json: @subscription
     end
 
     # POST /device/1/subscriptions
     def create
+      authorize :subscription, :create?
+
       @subscription = Subscription.new(subscription_params)
       @subscription.canceled = false
       @subscription.status = :synced
@@ -30,6 +34,7 @@ module Devices
 
     # DELETE /device/1/subscriptions/1
     def destroy
+      authorize :subscription, :destroy?
       @subscription.canceled = true
       @subscription.save!
     end

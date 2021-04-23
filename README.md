@@ -16,6 +16,22 @@ Pushbox is an open-source project created to centralize your push notifications.
 * Create osx tutorial
 * Create linux tutorial
 
+## Authentication
+
+To create a apiKey run rails console and create a User. For a client user uses the role **client** and for admin user uses the role **admin**
+
+> User.create(name: "App Client User", role: :client)
+
+> User.create(name: "Admin User", role: :admin)
+
+The api_key for user is generated automatically when user is created. Next you have to get it.
+
+> User.where(role: :cliente).take.api_key
+
+> User.where(role: :admin).take.api_key
+
+Now that you has the api_key, send it in all of your requests using the header *PushBox-Api-Key*
+
 ### Providers supported
 
 - Expo
