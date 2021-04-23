@@ -1,51 +1,35 @@
-# class Topics::NotificationsController < ApplicationController
-#     before_action :set_device, only: [:show, :update, :destroy]
+module Topics
+  class NotificationsController < ApplicationController
+    before_action :set_topic
 
-#     # GET /devices
-#     def index
-#       @devices = Device.all
+    # POST /topics/1/notifications
+    def create
+      authorize :notification, :create?
 
-#       render json: @devices
-#     end
+      @notification = Notification.new(notification_params)
 
-#     # GET /devices/1
-#     def show
-#       render json: @device
-#     end
+      provider = Provider.by_label(params[:provider_label]).take
 
-#     # POST /devices
-#     def create
-#       @device = Device.new(device_params)
+      raise "Provider #{params[:provider_label]} undefined or not found" and return unless provider
 
-#       if @device.save
-#         render json: @device, status: :created, location: @device
-#       else
-#         render json: @device.errors, status: :unprocessable_entity
-#       end
-#     end
+      @notification.destiny = @topic
+      @notification.provider = provider
 
-#     # PATCH/PUT /devices/1
-#     def update
-#       if @device.update(device_params)
-#         render json: @device
-#       else
-#         render json: @device.errors, status: :unprocessable_entity
-#       end
-#     end
+      if @notification.save
+        render json: @notification, status: :created
+      else
+        render json: @notification.errors, status: :unprocessable_entity
+      end
+    end
 
-#     # DELETE /devices/1
-#     def destroy
-#       @device.destroy
-#     end
+    private
 
-#     private
-#       # Use callbacks to share common setup or constraints between actions.
-#       def set_device
-#         @device = Device.find(params[:id])
-#       end
+    def set_topic
+      @topic = Topic.find(params[:topic_id])
+    end
 
-#       # Only allow a list of trusted parameters through.
-#       def device_params
-#         params.require(:device).permit(:provider_id, :system_id, :external_identifier, :extra_data, :tags)
-#       end
-#   end
+    def notification_params
+      params.permit(:title, :subtitle, :body, :body_type, :data, :tag)
+    end
+  end
+end

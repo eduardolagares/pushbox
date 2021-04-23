@@ -34,7 +34,6 @@ group :development, :test do
   gem "pry-rails", "~> 0.3.9"
   gem "rubocop", "~> 1.13"
   gem "shoulda", "~> 4.0"
-  gem "simplecov", "~> 0.21.2"
 end
 
 group :development do

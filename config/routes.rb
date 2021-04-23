@@ -9,7 +9,7 @@ Rails.application.routes.draw do
       end
 
       resources :topics, except: [:destroy] do
-        resources :notifications, only: [:create]
+        resources :notifications, only: [:create], module: 'topics'
       end
 
       resources :tags
