@@ -13,6 +13,5 @@ class CreateNotifications < ActiveRecord::Migration[6.1]
     end
 
     add_reference(:notifications, :destiny, polymorphic: true)
-
   end
 end

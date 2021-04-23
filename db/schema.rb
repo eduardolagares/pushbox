@@ -10,8 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_22_194619) do
-
+ActiveRecord::Schema.define(version: 20_210_422_194_619) do
   create_table "devices", force: :cascade do |t|
     t.integer "provider_id", null: false
     t.integer "system_id", null: false
@@ -37,7 +36,7 @@ ActiveRecord::Schema.define(version: 2021_04_22_194619) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "destiny_type"
     t.integer "destiny_id"
-    t.index ["destiny_type", "destiny_id"], name: "index_notifications_on_destiny"
+    t.index %w[destiny_type destiny_id], name: "index_notifications_on_destiny"
     t.index ["provider_id"], name: "index_notifications_on_provider_id"
   end
 

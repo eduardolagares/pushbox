@@ -14,7 +14,7 @@
 
 #   test "should create subscription" do
 #     assert_difference('Subscription.count') do
-#       post device_subscriptions_url(@device, nil), params: { 
+#       post device_subscriptions_url(@device, nil), params: {
 #         topic_id: @topic.id
 #       }, as: :json
 #     end

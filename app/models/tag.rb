@@ -1,7 +1,6 @@
 class Tag < ApplicationRecord
+  include Labelable
 
-    include Labelable
-
-    validates :label, uniqueness: true, presence: true
-    validates :name, presence: true
+  validates :label, uniqueness: true, presence: true
+  validates :name, presence: true
 end

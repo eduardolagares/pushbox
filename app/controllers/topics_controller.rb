@@ -1,5 +1,5 @@
 class TopicsController < ApplicationController
-  before_action :set_topic, only: [:show, :update, :destroy]
+  before_action :set_topic, only: %i[show update destroy]
 
   # GET /topics
   def index
@@ -32,15 +32,16 @@ class TopicsController < ApplicationController
       render json: @topic.errors, status: :unprocessable_entity
     end
   end
-  
-  private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_topic
-      @topic = Topic.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def topic_params
-      params.permit(:title, :description, :external_identifier)
-    end
+  private
+
+  # Use callbacks to share common setup or constraints between actions.
+  def set_topic
+    @topic = Topic.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def topic_params
+    params.permit(:title, :description, :external_identifier)
+  end
 end

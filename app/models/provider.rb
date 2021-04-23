@@ -1,10 +1,9 @@
 class Provider < ApplicationRecord
+  has_many :devices
+  has_many :notifications
 
-    has_many :devices
-    has_many :notifications
+  include Labelable
 
-    include Labelable
-    
-    validates :label, uniqueness: true, presence: true
-    validates :name, presence: true
+  validates :label, uniqueness: true, presence: true
+  validates :name, presence: true
 end

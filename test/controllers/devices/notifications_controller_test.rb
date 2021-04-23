@@ -8,7 +8,7 @@
 
 #   test "should create notification" do
 #     assert_difference('Notification.count') do
-#       post device_notifications_url(@device, nil), params: { 
+#       post device_notifications_url(@device, nil), params: {
 #         title: 'MyString'
 #       }, as: :json
 #     end
