@@ -42,6 +42,11 @@ Now that you has the api_key, send it in all of your requests using the header *
 * Create APNS Provider
 
 
+# ROAD MAP
+
+- Create an API_KEY for Device and insure that it only make changes in itslef. All device requests has to check Device-API-Key
+- Implement a job queue to send notifications
+
 # Documentation
 
 Swagger API docs (https://app.swaggerhub.com/apis-docs/eduardolagares5/Pushbox/0.0.2)
