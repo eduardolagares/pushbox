@@ -8,7 +8,6 @@ class CreateNotifications < ActiveRecord::Migration[6.1]
       t.integer :body_type, null: false
       t.json :data
       t.string :tag
-
       t.timestamps
     end
 

@@ -1,24 +1,26 @@
-class Devices::NotificationsController < ApplicationController
-  before_action :set_device
+module Devices
+  class NotificationsController < ApplicationController
+    before_action :set_device
 
-  # POST /device/1/notifications
-  def create
-    @notification = Notification.new(notification_params)
+    # POST /device/1/notifications
+    def create
+      @notification = Notification.new(notification_params)
 
-    if @notification.save
-      render json: @notification, status: :created
-    else
-      render json: @notification.errors, status: :unprocessable_entity
+      if @notification.save
+        render json: @notification, status: :created
+      else
+        render json: @notification.errors, status: :unprocessable_entity
+      end
     end
-  end
 
-  private
+    private
 
-  def set_device
-    @device = Device.find(params[:id])
-  end
+    def set_device
+      @device = Device.find(params[:id])
+    end
 
-  def notification_params
-    params.permit(:title, :subtitle, :body, :body_type, :data, :tag)
+    def notification_params
+      params.permit(:title, :subtitle, :body, :body_type, :data, :tag)
+    end
   end
 end

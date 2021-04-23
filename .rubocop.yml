@@ -2,3 +2,14 @@ Style/FrozenStringLiteralComment:
     Enabled: false
 Style/StringLiterals:
     Enabled: false
+Style/Documentation:
+    Enabled: false
+Metrics/AbcSize:
+    Max: 25
+Metrics/MethodLength:
+    Max: 10
+AllCops:
+  Exclude:
+    - 'bin/bundle'
+    - 'db/schema.rb'
+    - 'db/migrate/*'
