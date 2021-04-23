@@ -104,7 +104,7 @@ class DevicesControllerTest < ActionDispatch::IntegrationTest
 
   test 'should show device' do
     device = create(:device)
-    get device_url(device), as: :json, headers: admin_headers
+    get device_url(device), as: :json, headers: device_headers(device)
     assert JSON::Validator.validate(@json_schema, json)
     assert_response :success
   end
@@ -112,7 +112,7 @@ class DevicesControllerTest < ActionDispatch::IntegrationTest
   test 'should update device' do
     device = create(:device)
     new_device = build(:device)
-    patch device_url(device), params: new_device.as_json, as: :json, headers: client_headers
+    patch device_url(device), params: new_device.as_json, as: :json, headers: device_headers(device)
 
     assert JSON::Validator.validate(@json_schema, json)
 
@@ -123,5 +123,15 @@ class DevicesControllerTest < ActionDispatch::IntegrationTest
     assert_not_equal new_device.provider_identifier, json['provider_identifier']
 
     assert_response 200
+  end
+
+  test 'should not update device' do
+    wronog_device = create(:device)
+    device = create(:device)
+    new_device = build(:device)
+    patch device_url(device), params: new_device.as_json, as: :json, headers: device_headers(wronog_device)
+
+
+    assert_response :unauthorized
   end
 end

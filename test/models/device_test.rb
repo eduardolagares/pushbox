@@ -6,6 +6,7 @@ class DeviceTest < ActiveSupport::TestCase
   context 'associations' do
     should belong_to(:provider)
     should belong_to(:system)
+    should have_many(:subscriptions)
   end
 
   context 'validations' do

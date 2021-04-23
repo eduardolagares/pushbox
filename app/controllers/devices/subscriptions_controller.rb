@@ -6,24 +6,26 @@ module Devices
     # GET /device/:device_id/subscriptions
     def index
       authorize :subscription, :index?
-      @subscriptions = Subscription.not_canceled.where(device_id: @device.id)
+      authorize @device, :show_subscriptions?
+
+      @subscriptions = @device.subscriptions.not_canceled.where(device_id: @device.id)
 
       render json: @subscriptions
     end
 
     # GET /device/1/subscriptions/1
     def show
-      authorize :subscription, :show?
+      authorize @subscription, :show?
       render json: @subscription
     end
 
     # POST /device/1/subscriptions
     def create
-      authorize :subscription, :create?
-
       @subscription = Subscription.new(subscription_params)
       @subscription.canceled = false
       @subscription.status = :synced
+
+      authorize @subscription, :create?
 
       if @subscription.save
         render json: @subscription, status: :created, location: device_subscription_url(@device, @subscription)
@@ -34,13 +36,12 @@ module Devices
 
     # DELETE /device/1/subscriptions/1
     def destroy
-      authorize :subscription, :destroy?
+      authorize @subscription, :destroy?
       @subscription.canceled = true
       @subscription.save!
     end
 
     private
-
     # Use callbacks to share common setup or constraints between actions.
     def set_subscription
       @subscription = Subscription.find(params[:id])

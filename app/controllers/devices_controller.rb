@@ -15,14 +15,15 @@ class DevicesController < ApplicationController
 
   # GET /devices/1
   def show
-    authorize :device, :show?
+    authorize @device, :show?
     render json: @device
   end
 
   # POST /devices
   def create
-    authorize :device, :create?
+    
     @device = find_or_new
+    authorize @device, :create?
 
     status = @device.id.nil? ? :created : 200
     if @device.save
@@ -34,7 +35,7 @@ class DevicesController < ApplicationController
 
   # PATCH/PUT /devices/1
   def update
-    authorize :device, :update?
+    authorize @device, :update?
     if @device.update(update_device_params)
       render json: @device
     else
@@ -44,7 +45,7 @@ class DevicesController < ApplicationController
 
   # DELETE /devices/1
   def destroy
-    authorize :device, :destroy?
+    authorize @device, :destroy?
     @device.destroy
   end
 

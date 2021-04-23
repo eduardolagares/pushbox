@@ -17,8 +17,9 @@ ActiveRecord::Schema.define(version: 2021_04_23_155744) do
     t.integer "system_id", null: false
     t.string "external_identifier"
     t.string "provider_identifier", null: false
-    t.json "extra_data", default: "\"\\\"\\\\\\\"{}\\\\\\\"\\\"\""
-    t.json "tags", default: "\"\\\"\\\\\\\"[]\\\\\\\"\\\"\""
+    t.json "extra_data", default: {}
+    t.json "tags", default: []
+    t.string "api_key", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["provider_id"], name: "index_devices_on_provider_id"

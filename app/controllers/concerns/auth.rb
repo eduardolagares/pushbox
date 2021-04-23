@@ -1,13 +1,9 @@
 module Auth
-
-    extend ActiveSupport::Concern
-
-  included do
-    before_action :authorize_user
-  end
+  extend ActiveSupport::Concern
 
   def current_user
-    @current_user ||= User.where(api_key: api_key).take
+    @current_user ||= Device.where(api_key: device_api_key).take unless device_api_key.blank?
+    @current_user ||= User.where(api_key: api_key).take unless api_key.blank?
   end
 
   private
@@ -16,8 +12,7 @@ module Auth
     request.headers["PushBox-Api-Key"]
   end
 
-  def authorize_user
-    head(:unauthorized) and raise "Api Key invalid." unless current_user
+  def device_api_key
+    request.headers["PushBox-Device-Api-Key"]
   end
-
 end
