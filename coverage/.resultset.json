@@ -1,6 +1,16 @@
 {
   "Minitest": {
     "coverage": {
+      "/Users/eduardo/projetos/pushbox/test/support/shoulda.rb": {
+        "lines": [
+          1,
+          1,
+          1,
+          1,
+          null,
+          null
+        ]
+      },
       "/Users/eduardo/projetos/pushbox/test/controllers/systems_controller_test.rb": {
         "lines": [
           1,
@@ -277,6 +287,6 @@
         ]
       }
     },
-    "timestamp": 1619154228
+    "timestamp": 1619154468
   }
 }
