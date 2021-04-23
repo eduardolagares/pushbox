@@ -20,3 +20,5 @@ module ActiveSupport
     end
   end
 end
+
+SimpleCov.start
