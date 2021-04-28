@@ -15,8 +15,6 @@ class Device < ApplicationRecord
 
   before_create :generate_api_key
 
-
-
   # Fix pundits problems
   def admin?
     false

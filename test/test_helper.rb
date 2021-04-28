@@ -24,7 +24,7 @@ module ActiveSupport
     end
 
     def device_headers(device)
-      { 
+      {
         "PushBox-Device-Api-Key": device.api_key,
         "PushBox-Api-Key": client_api_key
       }.as_json

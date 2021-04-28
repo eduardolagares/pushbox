@@ -3,7 +3,7 @@ class CreateTopics < ActiveRecord::Migration[6.1]
     create_table :topics do |t|
       t.string :title, null: false
       t.text :description, null: true
-      t.string :external_identifier, null: false, unique: true
+      t.string :external_identifier, null: true, unique: true
       t.timestamps
     end
   end

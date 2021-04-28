@@ -21,6 +21,10 @@ class DevicesController < ApplicationController
 
   # POST /devices
   def create
+    current_device = Device.where(provider_identifier: create_device_params[:provider_identifier],
+                                  provider_id: create_device_params[:provider_id]).take
+    render json: current_device, status: status, location: @device and return if current_device
+
     @device = Device.new(create_device_params)
     authorize @device, :create?
 
@@ -49,6 +53,7 @@ class DevicesController < ApplicationController
   end
 
   private
+
   # Convert param provider_label in a provider_id
   def fetch_provider_by_label
     params[:provider_id] = Provider.by_label(params[:provider_label]).take&.id unless params[:provider_label].blank?

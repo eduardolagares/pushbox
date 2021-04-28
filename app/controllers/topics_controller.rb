@@ -3,7 +3,9 @@ class TopicsController < ApplicationController
 
   # GET /topics
   def index
-    @topics = Topic.all
+    search = params[:search]
+
+    @topics = Topic.by_title(search).order(:title)
 
     render json: @topics
   end

@@ -7,8 +7,9 @@ Style/Documentation:
 Metrics/AbcSize:
     Max: 25
 Metrics/MethodLength:
-    Max: 10
+    Max: 20
 AllCops:
+  NewCops: enable
   Exclude:
     - 'bin/bundle'
     - 'db/schema.rb'

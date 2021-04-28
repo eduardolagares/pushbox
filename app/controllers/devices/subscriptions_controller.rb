@@ -10,7 +10,7 @@ module Devices
 
       @subscriptions = @device.subscriptions.not_canceled.where(device_id: @device.id)
 
-      render json: @subscriptions
+      render json: @subscriptions, include: :topic
     end
 
     # GET /device/1/subscriptions/1
@@ -42,6 +42,7 @@ module Devices
     end
 
     private
+
     # Use callbacks to share common setup or constraints between actions.
     def set_subscription
       @subscription = Subscription.find(params[:id])

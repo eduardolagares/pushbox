@@ -2,11 +2,11 @@ class TagPolicy < ApplicationPolicy
   attr_reader :user, :record
 
   def index?
-    user&.admin? ||user&.client?
+    user&.admin? || user&.client?
   end
 
   def show?
-    user&.admin? ||user&.client?
+    user&.admin? || user&.client?
   end
 
   def create?

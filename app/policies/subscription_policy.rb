@@ -1,6 +1,6 @@
 class SubscriptionPolicy < ApplicationPolicy
   attr_reader :user, :record
-  
+
   def index?
     user&.admin? || user.is_a?(Device)
   end

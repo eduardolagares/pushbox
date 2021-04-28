@@ -6,4 +6,5 @@ class Provider < ApplicationRecord
 
   validates :label, uniqueness: true, presence: true
   validates :name, presence: true
+  validates :delivery_class_name, presence: true
 end
