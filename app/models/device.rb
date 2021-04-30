@@ -3,6 +3,7 @@ class Device < ApplicationRecord
   belongs_to :provider
   belongs_to :system
   has_many :subscriptions
+  has_many :notifications, as: :destiny
 
   scope :by_system_label, ->(label) { joins(:system).where(systems: { label: label }) unless label.blank? }
   scope :by_provider_label, ->(label) { joins(:provider).where(providers: { label: label }) unless label.blank? }

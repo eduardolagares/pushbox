@@ -2,7 +2,17 @@ module Devices
   class NotificationsController < ApplicationController
     before_action :set_device
 
-    # POST /device/1/notifications
+    # GET /devices/1/notifications
+    def index
+      authorize :notification, :list?
+      @notifications = @device.notifications.order('created_at DESC')
+                              .page(params[:page] || 1)
+                              .per(params[:per_page] || Kaminari.config.default_per_page)
+
+      render json: @notifications
+    end
+
+    # POST /devices/1/notifications
     def create
       authorize :notification, :create?
 

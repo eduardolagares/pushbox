@@ -7,6 +7,7 @@ class DeviceTest < ActiveSupport::TestCase
     should belong_to(:provider)
     should belong_to(:system)
     should have_many(:subscriptions)
+    should have_many(:notifications)
   end
 
   context 'validations' do
