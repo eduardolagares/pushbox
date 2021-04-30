@@ -1,20 +1,20 @@
 class DevicePolicy < ApplicationPolicy
-  attr_reader :user, :record
+  attr_reader :user, :device, :record
 
   def index?
     user&.admin?
   end
 
   def show?
-    user&.admin? || user&.id == record.id
+    user&.admin? || device&.id == record.id
   end
 
   def create?
-    user&.kind_of?(User)
+    user
   end
 
   def update?
-    user&.admin? || user&.id == record.id
+    user&.admin? || device&.id == record.id
   end
 
   def destroy?
@@ -22,6 +22,6 @@ class DevicePolicy < ApplicationPolicy
   end
 
   def show_subscriptions?
-    user&.admin? || user&.id == record.id
+    user&.admin? || device&.id == record.id
   end
 end

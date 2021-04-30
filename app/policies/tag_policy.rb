@@ -1,5 +1,5 @@
 class TagPolicy < ApplicationPolicy
-  attr_reader :user, :record
+  attr_reader :user, :device, :record
 
   def index?
     user&.admin? || user&.client?

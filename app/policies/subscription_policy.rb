@@ -1,23 +1,23 @@
 class SubscriptionPolicy < ApplicationPolicy
-  attr_reader :user, :record
+  attr_reader :user, :device, :record
 
   def index?
-    user&.admin? || user.is_a?(Device)
+    user&.admin? || !device.nil?
   end
 
   def show?
-    user&.admin? || user&.id == record.device_id
+    user&.admin? || device&.id == record.device_id
   end
 
   def create?
-    user&.admin? || user&.id == record.device_id
+    user&.admin? || device&.id == record.device_id
   end
 
   def update?
-    user&.admin? || user&.id == record.device_id
+    user&.admin? || device&.id == record.device_id
   end
 
   def destroy?
-    user&.admin? || user&.id == record.device_id
+    user&.admin? || device&.id == record.device_id
   end
 end
