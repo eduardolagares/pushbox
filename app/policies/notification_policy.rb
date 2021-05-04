@@ -3,7 +3,7 @@ class NotificationPolicy < ApplicationPolicy
 
 
   def list?
-    user&.admin? || (user.client? && !device.nil?)
+    user&.admin? || (user&.client? && !device.nil?)
   end
   
   def create?

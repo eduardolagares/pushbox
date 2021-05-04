@@ -15,13 +15,4 @@ class Device < ApplicationRecord
   validates :provider_identifier, uniqueness: { scope: %i[provider_id system_id] }, presence: true
 
   before_create :generate_api_key
-
-  # Fix pundits problems
-  def admin?
-    false
-  end
-
-  def client?
-    true
-  end
 end
