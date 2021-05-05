@@ -1,5 +1,6 @@
 class Topic < ApplicationRecord
   has_many :subscriptions
+  has_many :devices, through: :subscriptions
 
   validates :title, presence: true
 
