@@ -80,7 +80,7 @@ ActiveRecord::Schema.define(version: 2021_04_23_155744) do
   create_table "topics", force: :cascade do |t|
     t.string "title", null: false
     t.text "description"
-    t.string "external_identifier", null: false
+    t.string "external_identifier"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

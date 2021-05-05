@@ -15,10 +15,10 @@ module Auth
   private
 
   def api_key
-    request.headers["PushBox-Api-Key"]
+    request.headers["X-PushBox-Api-Key"]
   end
 
   def device_api_key
-    request.headers["PushBox-Device-Api-Key"]
+    request.headers["X-PushBox-Device-Api-Key"]
   end
 end
