@@ -13,6 +13,7 @@ module Pushbox
       private
       def send
         # TODO: to use expo api here
+        puts 'FAKE SENDING...'
       end
     end
   end
