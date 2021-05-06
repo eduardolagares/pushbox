@@ -1,21 +1,21 @@
 module Pushbox
   module Delivery
     class Base
-      attr_accessor :delivery_control
-      def initialize(delivery_control:)
-        raise RuntimeError, 'delivery_control param should be a instance of the DeliveryControl model.' unless notification.instance_of?(DeliveryControl)
-        self.delivery_control = delivery_control
+      attr_accessor :delivery
+      def initialize(delivery:)
+        raise RuntimeError, 'delivery param should be a instance of the Delivery model.' unless notification.instance_of?(Delivery)
+        self.delivery = delivery
       end
 
       def deliver
         ActiveRecord::Base.transaction do
-          notification = delivery_control.notification.lock()
+          notification = delivery.notification.lock()
           notification.status = :sending
           notification.save!
           send()
-          delivery_control.status = :finished
-          delivery_control.save!
-          if notification.delivery_control.pending.count == 0
+          delivery.status = :finished
+          delivery.save!
+          if notification.delivery.pending.count == 0
             notification.status = :finished
             notification.save!
           end

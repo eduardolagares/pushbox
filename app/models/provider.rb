@@ -24,7 +24,7 @@ class Provider < ApplicationRecord
   private
 
   def validate_delivery_class
-    return if delivery_class.kind_of?(Pusbox::Delivery::Base)
-    errors.add :delivery_class_name, "The delivery class must inherit Pusbox::Delivery::Base."
+    return if delivery_class.ancestors.include?(Pushbox::Delivery::Expo)
+    errors.add :delivery_class_name, "The delivery class must inherit Pushbox::Delivery::Base."
   end
 end

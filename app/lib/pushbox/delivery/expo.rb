@@ -1,6 +1,6 @@
 module Pushbox
   module Delivery
-    class Expo < Base
+    class Expo < Pushbox::Delivery::Base
 
       def self.max_devices_per_request
         50

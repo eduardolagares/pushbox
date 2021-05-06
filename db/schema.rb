@@ -10,7 +10,28 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_05_162704) do
+ActiveRecord::Schema.define(version: 2021_05_06_164259) do
+
+  create_table "deliveries", force: :cascade do |t|
+    t.string "job_id"
+    t.integer "notification_id", null: false
+    t.integer "provider_id", null: false
+    t.integer "topic_id"
+    t.integer "status", default: 0, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["job_id"], name: "index_deliveries_on_job_id"
+    t.index ["notification_id"], name: "index_deliveries_on_notification_id"
+    t.index ["provider_id"], name: "index_deliveries_on_provider_id"
+    t.index ["topic_id"], name: "index_deliveries_on_topic_id"
+  end
+
+  create_table "deliveries_devices", id: false, force: :cascade do |t|
+    t.integer "delivery_id", null: false
+    t.integer "device_id", null: false
+    t.index ["delivery_id", "device_id"], name: "index_deliveries_devices_on_delivery_id_and_device_id"
+    t.index ["device_id", "delivery_id"], name: "index_deliveries_devices_on_device_id_and_delivery_id"
+  end
 
   create_table "devices", force: :cascade do |t|
     t.integer "provider_id", null: false
@@ -26,23 +47,9 @@ ActiveRecord::Schema.define(version: 2021_05_05_162704) do
     t.index ["system_id"], name: "index_devices_on_system_id"
   end
 
-  create_table "delivery_controls", force: :cascade do |t|
-    t.string "job_id"
-    t.datetime "schedule_at", null: false
-    t.integer "notification_id", null: false
-    t.integer "provider_id", null: false
-    t.integer "status", default: 0, null: false
-    t.integer "provider_identifiers", null: false
-    t.integer "provider_identifiers_count", default: 0, null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["job_id"], name: "index_delivery_controls_on_job_id"
-    t.index ["notification_id"], name: "index_delivery_controls_on_notification_id"
-    t.index ["provider_id"], name: "index_delivery_controls_on_provider_id"
-  end
-
   create_table "notifications", force: :cascade do |t|
     t.integer "provider_id", null: false
+    t.datetime "schedule_at", null: false
     t.string "title", null: false
     t.string "subtitle"
     t.string "body"
@@ -109,10 +116,11 @@ ActiveRecord::Schema.define(version: 2021_05_05_162704) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  add_foreign_key "deliveries", "notifications"
+  add_foreign_key "deliveries", "providers"
+  add_foreign_key "deliveries", "topics"
   add_foreign_key "devices", "providers"
   add_foreign_key "devices", "systems"
-  add_foreign_key "delivery_controls", "notifications"
-  add_foreign_key "delivery_controls", "providers"
   add_foreign_key "notifications", "providers"
   add_foreign_key "subscriptions", "devices"
   add_foreign_key "subscriptions", "topics"

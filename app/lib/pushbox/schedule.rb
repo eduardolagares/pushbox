@@ -9,9 +9,9 @@ module Pushbox
     def cancel
       check_transaction()
       raise RuntimeError, 'Is only possible to cancel jobs for a sending notification.' unless notification.status_sending?
-      notification.delivery_controls.each do |delivery_control|
-        delivery_control.status = :canceled
-        delivery_control.save!
+      notification.Deliveries.each do |delivery|
+        delivery.status = :canceled
+        delivery.save!
       end
       notification.status = :canceled
       notification.save!
@@ -37,17 +37,24 @@ module Pushbox
 
     def schedule_device(device:)
       raise RuntimeError, 'device param should be a instance of the Device model.' unless device.instance_of?(Device)
-      DeliveryControl.create!(notification: notification, provider_id: device.provider_id, provider_identifiers: [device.provider_identifier])
+      delivery = Delivery.create!(notification: notification, provider_id: device.provider_id)
+      delivery.devices << device
     end
 
     def schedule_topic(topic:)
       raise RuntimeError, 'topic param should be a instance of the Topic model.' unless topic.instance_of?(Topic)
-      topic.devices.group(:provider_id).pluck(:provider_identifier).each do |provider_id, provider_identifiers|
+      topic.devices.group(:provider_id).pluck(:id).each do |provider_id, device_ids|
         provider = Provider.select(:device_class_name).find(provider_id)
-        provider_identifiers.chunk(provider.max_devices_per_request) do |chunk_of_provider_identifiers|
-          DeliveryControl.create!(notification: notification, provider_id: device.provider_id, provider_identifiers: chunk_of_provider_identifiers)
+        device_ids.chunk(provider.max_devices_per_request) do |chunk_of_device_ids|
+          delivery = Delivery.new(notification: notification, provider_id: device.provider_id)
+          delivery.device_ids = chunk_of_device_ids
+          delivery.save!
         end
       end
+
+      # TODO: suportar topic que para providers que tenham suporte nativo.
+      # O problema aqui é que cada provider teria seu proprio "id", trazendo a necessidade de uma nova tabela.
+      
     end
   end
 end

@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :delivery_control do
+  factory :delivery do
     notification { nil }
     identifier { "MyString" }
   end
