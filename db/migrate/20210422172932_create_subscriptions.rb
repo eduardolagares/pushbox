@@ -7,5 +7,7 @@ class CreateSubscriptions < ActiveRecord::Migration[6.1]
 
       t.timestamps
     end
+
+    add_index :subscriptions, [:topic_id, :device_id], unique: true
   end
 end

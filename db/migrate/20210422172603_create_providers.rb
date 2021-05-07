@@ -4,7 +4,6 @@ class CreateProviders < ActiveRecord::Migration[6.1]
       t.string :name, null: false
       t.json :config, default: {}
       t.string :delivery_class_name, null: false
-      t.boolean :synced_topics, null: false, default: false
       t.string :label, null: false, unique: true
 
       t.timestamps

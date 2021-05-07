@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_23_155744) do
+ActiveRecord::Schema.define(version: 2021_05_07_153438) do
 
   create_table "devices", force: :cascade do |t|
     t.integer "provider_id", null: false
@@ -27,13 +27,13 @@ ActiveRecord::Schema.define(version: 2021_04_23_155744) do
   end
 
   create_table "notifications", force: :cascade do |t|
-    t.integer "parent_id", null: false
+    t.integer "parent_id"
     t.integer "provider_id", null: false
     t.datetime "schedule_at", null: false
-    t.string "title", null: false
+    t.string "title"
     t.string "subtitle"
     t.string "body"
-    t.integer "body_type", null: false
+    t.integer "body_type"
     t.json "data"
     t.string "tag"
     t.integer "status", default: 0, null: false
@@ -41,6 +41,7 @@ ActiveRecord::Schema.define(version: 2021_04_23_155744) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "destiny_type"
     t.integer "destiny_id"
+    t.index "\"parent_id\", \"device_type\", \"device_id\"", name: "index_notifications_on_parent_id_and_device_type_and_device_id", unique: true
     t.index ["destiny_type", "destiny_id"], name: "index_notifications_on_destiny"
     t.index ["parent_id"], name: "index_notifications_on_parent_id"
     t.index ["provider_id"], name: "index_notifications_on_provider_id"
@@ -50,7 +51,6 @@ ActiveRecord::Schema.define(version: 2021_04_23_155744) do
     t.string "name", null: false
     t.json "config", default: {}
     t.string "delivery_class_name", null: false
-    t.boolean "synced_topics", default: false, null: false
     t.string "label", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -63,6 +63,7 @@ ActiveRecord::Schema.define(version: 2021_04_23_155744) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["device_id"], name: "index_subscriptions_on_device_id"
+    t.index ["topic_id", "device_id"], name: "index_subscriptions_on_topic_id_and_device_id", unique: true
     t.index ["topic_id"], name: "index_subscriptions_on_topic_id"
   end
 
@@ -89,9 +90,9 @@ ActiveRecord::Schema.define(version: 2021_04_23_155744) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.string "name"
-    t.string "api_key"
-    t.integer "role"
+    t.string "name", null: false
+    t.string "api_key", null: false
+    t.integer "role", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

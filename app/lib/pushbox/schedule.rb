@@ -9,22 +9,19 @@ module Pushbox
 
     def cancel
       check_transaction()
-      raise RuntimeError, 'Is only possible to cancel jobs for a sending notification.' unless notification.status_sending?
-      # TODO: loop over dependents
-      notification.status = :canceled
-      notification.save!
+      raise RuntimeError, 'Is only possible to cancel jobs for a sending notification.' unless notification.status_queued?
     end
 
     def queue
       check_transaction()
-      raise RuntimeError, 'Is only possible to create jobs for a new notification.' unless notification.status_new?
-      case notification.destiny.class
-        when Device
+      # raise RuntimeError, 'Is only possible to queue a notification for a new notification.'
+      case notification.destiny.class.name
+        when 'Device'
           queue_for_device(notification)
-        when Topic
+        when 'Topic'
           queue_for_topic(notification)
         else
-          raise RuntimeError, "Is not possible to create jobs for a #{notification.destiny.class} destiny."
+          raise RuntimeError, "Is not possible to queue a notification for a #{notification.destiny.class} destiny."
       end
     end
 

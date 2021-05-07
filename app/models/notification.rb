@@ -4,27 +4,55 @@ class Notification < ApplicationRecord
   
   belongs_to :provider
   belongs_to :destiny, polymorphic: true
-  belongs_to :parent, class_name: 'Notification', foreign_key: 'parent_id'
+  belongs_to :parent, class_name: 'Notification', foreign_key: 'parent_id', optional: true
   has_many :dependents, class_name: 'Notification', foreign_key: 'parent_id'
 
-  before_validation :fill_status, on: [:create]
-  before_save :keep_schedule
-  before_create :schedule
+  after_initialize :default_values
+  after_commit :create_dependents, on: [:create], if: proc { destiny.instance_of?(Topic) }
 
-  validates_presence_of :body_type, :title
-  
+  validates_presence_of :body, if: proc { parent_id.nil? }
+  validates_presence_of :body_type, if: proc { parent_id.nil? }
+  validates_presence_of :title, if: proc { parent_id.nil? }
+
+  def title
+    return parent.title if parent_id.present?
+    read_attribute(:title)
+  end
+
+  def subtitle
+    return parent.subtitle if parent_id.present?
+    read_attribute(:subtitle)
+  end
+
+  def body
+    return parent.body if parent_id.present?
+    read_attribute(:body)
+  end
+
+  def body_type
+    return parent.body_type if parent_id.present?
+    read_attribute(:body_type)
+  end
+
+  def data
+    return parent.data if parent_id.present?
+    read_attribute(:data)
+  end
+
+  def tag
+    return parent.tag if parent_id.present?
+    read_attribute(:tag)
+  end
+
   private
   
-  def fill_status
+  def default_values
     self.status ||= :new
+    self.schedule_at ||= 5.minutes.from_now
   end
 
-  def keep_schedule
-    return unless status_changed?
-    Pushbox::Schedule.new(notification: self).cancel() if status == 'canceled'
-  end
-
-  def schedule
-    Pushbox::Schedule.new(notification: self).queue()
+  def create_dependents
+    return unless destiny.instance_of?(Topic)
+    CreateNotificationDependentsJob.perform_later(notification_id: self.id)
   end
 end

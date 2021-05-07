@@ -9,7 +9,7 @@ module Pushbox
 
       def deliver
         ActiveRecord::Base.transaction do
-          notification = delivery.notification.lock()
+          notification = delivery.notification.lock!
           notification.status = :sending
           notification.save!
           send()

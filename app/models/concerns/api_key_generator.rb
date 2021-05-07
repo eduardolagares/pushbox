@@ -1,7 +1,8 @@
 module ApiKeyGenerator
   extend ActiveSupport::Concern
+
   included do
-    before_create :generate_api_key
+    after_initialize :generate_api_key
   end
 
   def generate_api_key
