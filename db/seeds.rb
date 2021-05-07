@@ -1,11 +1,17 @@
 # Create the expo provider register if it not already exists
 unless Provider.by_label('expo').exists?
 
-  Provider.create!({
+  provider = Provider.create!({
                      name: "Expo Push Notification",
                      config: {},
                      delivery_class_name: 'Pushbox::Delivery::Expo',
                      synced_topics: false,
                      label: 'expo'
                    })
+
+  system = System.create!(name: 'App React', label: "app_cliente")
+
+  user = User.create!(name: 'Teste do Wagner', api_key: 'GQHQRCLYORVUXAAWDNEQFEDTDZ', role: :client)
+
+  topic = Topic.create!(title: 'Topico de Teste')
 end

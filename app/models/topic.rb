@@ -1,7 +1,7 @@
 class Topic < ApplicationRecord
   has_many :subscriptions
   has_many :devices, through: :subscriptions
-  has_many :deliveries
+  has_many :notifications, as: :destiny
 
   validates :title, presence: true
 

@@ -22,8 +22,6 @@ module Devices
     # POST /device/1/subscriptions
     def create
       @subscription = Subscription.new(subscription_params)
-      @subscription.canceled = false
-      @subscription.status = :synced
 
       authorize @subscription, :create?
 

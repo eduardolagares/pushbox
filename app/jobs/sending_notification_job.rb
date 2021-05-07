@@ -1,10 +1,10 @@
 class SendingNotificationJob < ApplicationJob
-  queue_as :delivery_notification
+  queue_as :delivery
 
-  def perform(delivery_id:)
-    delivery = Delivery.find(delivery_id)
-    delivery_class = delivery.delivery_class()
-    delivery = delivery_class.new(delivery: delivery)
+  def perform(provider_id:)
+    delivery = Provider.find(provider_id)
+    delivery_class = provider.delivery_class()
+    delivery = delivery_class.new()
     delivery.deliver()
   end
 end

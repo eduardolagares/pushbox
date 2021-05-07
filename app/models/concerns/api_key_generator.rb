@@ -5,6 +5,6 @@ module ApiKeyGenerator
   end
 
   def generate_api_key
-    self.api_key = SecureRandom.alphanumeric(32)
+    self.api_key ||= SecureRandom.alphanumeric(32)
   end
 end

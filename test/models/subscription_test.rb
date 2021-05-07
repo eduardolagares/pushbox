@@ -7,8 +7,4 @@ class SubscriptionTest < ActiveSupport::TestCase
     should belong_to(:device)
     should belong_to(:topic)
   end
-
-  context 'validations' do
-    should validate_presence_of(:status)
-  end
 end
