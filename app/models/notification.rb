@@ -50,7 +50,8 @@ class Notification < ApplicationRecord
   private
   
   def set_status
-    # How is not necessery to create dependents for th
+    # It's not necessary to create dependents for for a device notification but it's has to be already queued.
+    # For topic notifications after CreateNotificationDependentsJob complets the status will change.
     self.status = :queued if destiny.instance_of?(Device)
   end
 
