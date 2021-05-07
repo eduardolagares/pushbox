@@ -1,7 +1,7 @@
 class Topic < ApplicationRecord
-  has_many :subscriptions
+  has_many :subscriptions, dependent: :delete_all
   has_many :devices, through: :subscriptions
-  has_many :notifications, as: :destiny
+  has_many :notifications, as: :destiny, dependent: :delete_all
 
   validates :title, presence: true
 

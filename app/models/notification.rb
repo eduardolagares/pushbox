@@ -5,11 +5,14 @@ class Notification < ApplicationRecord
   belongs_to :provider
   belongs_to :destiny, polymorphic: true
   belongs_to :parent, class_name: 'Notification', foreign_key: 'parent_id', optional: true
-  has_many :dependents, class_name: 'Notification', foreign_key: 'parent_id'
+  has_many :dependents, class_name: 'Notification', foreign_key: 'parent_id', dependent: :delete_all
 
   after_initialize :default_values
+  before_save :set_status
+  after_commit :schedule_job, on: [:create]
   after_commit :create_dependents, on: [:create], if: proc { destiny.instance_of?(Topic) }
-
+  
+  
   validates_presence_of :body, if: proc { parent_id.nil? }
   validates_presence_of :body_type, if: proc { parent_id.nil? }
   validates_presence_of :title, if: proc { parent_id.nil? }
@@ -46,6 +49,11 @@ class Notification < ApplicationRecord
 
   private
   
+  def set_status
+    # How is not necessery to create dependents for th
+    self.status = :queued if destiny.instance_of?(Device)
+  end
+
   def default_values
     self.status ||= :new
     self.schedule_at ||= 5.minutes.from_now
@@ -54,5 +62,9 @@ class Notification < ApplicationRecord
   def create_dependents
     return unless destiny.instance_of?(Topic)
     CreateNotificationDependentsJob.perform_later(notification_id: self.id)
+  end
+
+  def schedule_job
+    SendingNotificationJob.set(wait_until: schedule_at).perform_later(notification_id: self.id)
   end
 end

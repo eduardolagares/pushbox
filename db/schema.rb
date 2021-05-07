@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_07_153438) do
+ActiveRecord::Schema.define(version: 2021_05_07_203103) do
 
   create_table "devices", force: :cascade do |t|
     t.integer "provider_id", null: false
@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(version: 2021_05_07_153438) do
     t.string "api_key", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["provider_id", "provider_identifier"], name: "index_devices_on_provider_id_and_provider_identifier", unique: true
     t.index ["provider_id"], name: "index_devices_on_provider_id"
     t.index ["system_id"], name: "index_devices_on_system_id"
   end
@@ -41,8 +42,9 @@ ActiveRecord::Schema.define(version: 2021_05_07_153438) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "destiny_type"
     t.integer "destiny_id"
-    t.index "\"parent_id\", \"device_type\", \"device_id\"", name: "index_notifications_on_parent_id_and_device_type_and_device_id", unique: true
+    t.string "job_id"
     t.index ["destiny_type", "destiny_id"], name: "index_notifications_on_destiny"
+    t.index ["parent_id", "destiny_id"], name: "index_notifications_on_parent_id_and_destiny_id_and_destiny_id", unique: true
     t.index ["parent_id"], name: "index_notifications_on_parent_id"
     t.index ["provider_id"], name: "index_notifications_on_provider_id"
   end
@@ -99,7 +101,7 @@ ActiveRecord::Schema.define(version: 2021_05_07_153438) do
 
   add_foreign_key "devices", "providers"
   add_foreign_key "devices", "systems"
-  add_foreign_key "notifications", "notifications", column: "parent_id", on_delete: :cascade
+  add_foreign_key "notifications", "notifications", column: "parent_id"
   add_foreign_key "notifications", "providers"
   add_foreign_key "subscriptions", "devices"
   add_foreign_key "subscriptions", "topics"

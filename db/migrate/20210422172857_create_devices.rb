@@ -11,5 +11,7 @@ class CreateDevices < ActiveRecord::Migration[6.1]
 
       t.timestamps
     end
+
+    add_index :devices, [:provider_id, :provider_identifier], unique: true
   end
 end

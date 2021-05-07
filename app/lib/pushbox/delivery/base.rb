@@ -1,24 +1,21 @@
 module Pushbox
   module Delivery
     class Base
-      attr_accessor :delivery
-      def initialize(delivery:)
-        raise RuntimeError, 'delivery param should be a instance of the Delivery model.' unless notification.instance_of?(Delivery)
-        self.delivery = delivery
+      attr_accessor :payload, :not_found_devices, :provider_id
+      def initialize(notifications:, provider_id:)
+        self.provider_id = provider_id
+        if notifications.size > self.class.max_devices_per_request
+          raise RuntimeError, "The max number of notifications for a #{self.class.name} delivery is #{self.class.max_devices_per_request}"
+        end
+        fill_payload(notifications: notifications)
+        self.not_found_devices = []
       end
 
-      def deliver
-        ActiveRecord::Base.transaction do
-          notification = delivery.notification.lock!
-          notification.status = :sending
-          notification.save!
-          send()
-          delivery.status = :finished
-          delivery.save!
-          if notification.delivery.pending.count == 0
-            notification.status = :finished
-            notification.save!
-          end
+      def run
+        send()
+        not_found_devices.each do |device|
+          Rails.logger.warn "Removing #{device.provider_identifier} from database because it wasn't found on #{device.provider.name} provider."
+          device.destroy!
         end
       end
 
@@ -31,6 +28,10 @@ module Pushbox
       end
       
       private
+      def fill_payload(notifications:)
+        raise NotImplementError
+      end
+
       def send
         raise NotImplementError
       end

@@ -3,8 +3,8 @@ class Device < ApplicationRecord
 
   belongs_to :provider
   belongs_to :system
-  has_many :subscriptions
-  has_many :notifications, as: :destiny
+  has_many :subscriptions, dependent: :destroy
+  has_many :notifications, as: :destiny, dependent: :delete_all
 
   before_create :generate_api_key
 

@@ -8,9 +8,9 @@ unless Provider.by_label('expo').exists?
                      label: 'expo'
                    })
 
-  system = System.create!(name: 'App React', label: "app_cliente")
+  # system = System.create!(name: 'App React', label: "app_cliente")
 
-  user = User.create!(name: 'Teste do Wagner', api_key: 'GQHQRCLYORVUXAAWDNEQFEDTDZ', role: :client)
+  # user = User.create!(name: 'Teste do Wagner', api_key: 'GQHQRCLYORVUXAAWDNEQFEDTDZ', role: :client)
 
-  topic = Topic.create!(title: 'Topico de Teste')
+  # topic = Topic.create!(title: 'Topico de Teste')
 end
