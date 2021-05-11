@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  Healthcheck.routes(self)
   scope :api do
     scope :v1 do
       resources :systems

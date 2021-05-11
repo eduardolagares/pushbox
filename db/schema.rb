@@ -10,15 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_07_203103) do
+ActiveRecord::Schema.define(version: 2021_04_23_155744) do
+
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
 
   create_table "devices", force: :cascade do |t|
-    t.integer "provider_id", null: false
-    t.integer "system_id", null: false
+    t.bigint "provider_id", null: false
+    t.bigint "system_id", null: false
     t.string "external_identifier"
     t.string "provider_identifier", null: false
     t.json "extra_data", default: {}
-    t.json "tags", default: []
+    t.json "tags", default: [], array: true
     t.string "api_key", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -28,8 +31,8 @@ ActiveRecord::Schema.define(version: 2021_05_07_203103) do
   end
 
   create_table "notifications", force: :cascade do |t|
-    t.integer "parent_id"
-    t.integer "provider_id", null: false
+    t.bigint "parent_id"
+    t.bigint "provider_id", null: false
     t.datetime "schedule_at", null: false
     t.string "title"
     t.string "subtitle"
@@ -41,8 +44,7 @@ ActiveRecord::Schema.define(version: 2021_05_07_203103) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "destiny_type"
-    t.integer "destiny_id"
-    t.string "job_id"
+    t.bigint "destiny_id"
     t.index ["destiny_type", "destiny_id"], name: "index_notifications_on_destiny"
     t.index ["parent_id", "destiny_id"], name: "index_notifications_on_parent_id_and_destiny_id_and_destiny_id", unique: true
     t.index ["parent_id"], name: "index_notifications_on_parent_id"
@@ -59,8 +61,8 @@ ActiveRecord::Schema.define(version: 2021_05_07_203103) do
   end
 
   create_table "subscriptions", force: :cascade do |t|
-    t.integer "topic_id", null: false
-    t.integer "device_id", null: false
+    t.bigint "topic_id", null: false
+    t.bigint "device_id", null: false
     t.boolean "canceled", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
