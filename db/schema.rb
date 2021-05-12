@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_23_155744) do
+ActiveRecord::Schema.define(version: 2021_05_10_225748) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -45,6 +45,7 @@ ActiveRecord::Schema.define(version: 2021_04_23_155744) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "destiny_type"
     t.bigint "destiny_id"
+    t.boolean "read", default: false, null: false
     t.index ["destiny_type", "destiny_id"], name: "index_notifications_on_destiny"
     t.index ["parent_id", "destiny_id"], name: "index_notifications_on_parent_id_and_destiny_id_and_destiny_id", unique: true
     t.index ["parent_id"], name: "index_notifications_on_parent_id"
