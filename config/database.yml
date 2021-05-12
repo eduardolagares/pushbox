@@ -11,15 +11,8 @@ default: &default
 
 
 development:
-  adapter: <%= ENV.fetch("PUSHBOX_DB_ADAPTER") { "postgresql" } %>
-  database: <%= ENV.fetch("PUSHBOX_DB_NAME") { "pushbox_development" } %>
-  port: <%= ENV.fetch("PUSHBOX_DB_PORT") { 5432 } %>
-  encoding: <%= ENV.fetch("PUSHBOX_DB_ENCODING") { "utf8" } %>
-  username: <%= ENV.fetch("PUSHBOX_DB_USERNAME") { "pushbox" } %>
-  password: <%= ENV.fetch("PUSHBOX_DB_PASSWORD") { "pushbox" } %>
-  host: <%= ENV.fetch("PUSHBOX_DB_HOST") { 'localhost' } %>
-  pool: <%= ENV.fetch("PUSHBOX_DB_POOL") { 2 } %>
-  schema_search_path: <%= ENV.fetch("PUSHBOX_DB_SEARCHPATH") { "public" } %>
+  <<: *default
+  database: db/development.sqlite3
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
@@ -31,10 +24,10 @@ test:
 production:
   adapter: <%= ENV.fetch("PUSHBOX_DB_ADAPTER") { "postgresql" } %>
   database: <%= ENV.fetch("PUSHBOX_DB_NAME") { "pushbox_production" } %>
-  port: <%= ENV.fetch("PUSHBOX_DB_PORT") { 5432 } %>
+  port: <%= ENV.fetch("PUSHBOX_DB_PORT") { "5432" } %>
   encoding: <%= ENV.fetch("PUSHBOX_DB_ENCODING") { "utf8" } %>
   username: <%= ENV.fetch("PUSHBOX_DB_USERNAME") { "pushbox" } %>
   password: <%= ENV.fetch("PUSHBOX_DB_PASSWORD") { "pushbox#password" } %>
-  host: <%= ENV.fetch("PUSHBOX_DB_HOST") { 5432 } %>
+  host: <%= ENV.fetch("PUSHBOX_DB_HOST") { "localhost" } %>
   pool: <%= ENV.fetch("PUSHBOX_DB_POOL") { 2 } %>
   schema_search_path: <%= ENV.fetch("PUSHBOX_DB_SEARCHPATH") { "public" } %>
