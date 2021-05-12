@@ -47,7 +47,7 @@ gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 
 gem 'kaminari', '~> 1.2'
 gem 'pundit', '~> 2.1'
-gem 'exponent-server-sdk', '~> 0.1'
+#gem 'exponent-server-sdk', '~> 0.1'
 gem "pg", "~> 1.2"
 
 gem "rails-healthcheck", "~> 1.3"
