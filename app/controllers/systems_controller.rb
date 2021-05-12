@@ -4,6 +4,7 @@ class SystemsController < ApplicationController
   # GET /systems
   def index
     authorize :system, :index?
+
     @systems = System.all
 
     render json: @systems

@@ -11,7 +11,7 @@ class ProviderTest < ActiveSupport::TestCase
   context 'validations' do
     should validate_presence_of(:label)
     should validate_presence_of(:name)
-    should validate_presence_of(:delivery_class_name)
+    # should validate_presence_of(:delivery_class_name)
     should validate_uniqueness_of(:label)
   end
 end

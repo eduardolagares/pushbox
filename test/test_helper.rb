@@ -16,17 +16,17 @@ module ActiveSupport
     # Add more helper methods to be used by all tests here...
 
     def client_headers
-      { "PushBox-Api-Key": client_api_key }.as_json
+      { "X-PushBox-Api-Key": client_api_key }.as_json
     end
 
     def admin_headers
-      { "PushBox-Api-Key": admin_api_key }.as_json
+      { "X-PushBox-Api-Key": admin_api_key }.as_json
     end
 
     def device_headers(device)
       {
-        "PushBox-Device-Api-Key": device.api_key,
-        "PushBox-Api-Key": client_api_key
+        "X-PushBox-Device-Api-Key": device.api_key,
+        "X-PushBox-Api-Key": client_api_key
       }.as_json
     end
 
