@@ -45,9 +45,9 @@ end
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 
-gem 'kaminari', '~> 1.2'
-gem 'pundit', '~> 2.1'
 gem 'exponent-server-sdk', '~> 0.1'
+gem 'kaminari', '~> 1.2'
 gem "pg", "~> 1.2"
+gem 'pundit', '~> 2.1'
 
 gem "rails-healthcheck", "~> 1.3"

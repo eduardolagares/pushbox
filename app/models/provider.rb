@@ -1,6 +1,6 @@
 class Provider < ApplicationRecord
   include Labelable
-  
+
   has_many :devices
   has_many :notifications
 
@@ -13,10 +13,10 @@ class Provider < ApplicationRecord
     delivery_class.max_devices_per_request
   end
 
-  def is_topic_suported
-    delivery_class.is_topic_suported
+  def is_topic_suported?
+    delivery_class.is_topic_suported?
   end
-  
+
   def delivery_class
     Object.const_get(delivery_class_name)
   end
@@ -25,7 +25,7 @@ class Provider < ApplicationRecord
 
   def validate_delivery_class
     return if delivery_class.ancestors.include?(Pushbox::Delivery::Expo)
-    
+
     errors.add :delivery_class_name, "The delivery class must inherit Pushbox::Delivery::Base."
   end
 end

@@ -14,7 +14,7 @@ module Topics
 
       @notification.destiny = @topic
       @notification.provider = provider
-      
+
       if @notification.save
         render json: @notification, status: :created
       else

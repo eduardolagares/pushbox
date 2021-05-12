@@ -1,7 +1,6 @@
 require "test_helper"
 module Devices
   class NotificationsControllerTest < ActionDispatch::IntegrationTest
-
     test "should list all device notifications" do
       device = create(:device)
       create(:notification, destiny: device)

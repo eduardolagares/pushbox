@@ -1,12 +1,11 @@
 module Pushbox
   module Delivery
     class Expo < Pushbox::Delivery::Base
-
       def self.max_devices_per_request
         5
       end
 
-      def self.is_topic_suported
+      def self.is_topic_suported?
         false
       end
 
@@ -28,7 +27,7 @@ module Pushbox
         client = Exponent::Push::Client.new(gzip: true)
         handler = client.send_messages(self.payload)
         handler.invalid_push_tokens.each do |token|
-          self.not_found_devices << Device.where(provider_id: self.provider_id, provider_identifier: token).take
+          not_found_devices << Device.where(provider_id: provider_id, provider_identifier: token).take
         end
         handler.errors.each do |error|
           Rails.logger.warn error.message
@@ -36,8 +35,6 @@ module Pushbox
         # TODO: to implement message reading confirmation.
         # result = client.verify_deliveries(handler.receipt_ids)
       end
-
     end
   end
 end
-
