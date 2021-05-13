@@ -10,8 +10,7 @@ class DevicesController < ApplicationController
                      .page(params[:page] || 1)
                      .per(params[:per_page] || Kaminari.config.default_per_page)
 
-
-    render json: {data: @devices, paging: meta_data(@devices)}
+    render json: { data: @devices, paging: meta_data(@devices) }
   end
 
   # GET /devices/1

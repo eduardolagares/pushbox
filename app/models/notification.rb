@@ -90,6 +90,4 @@ class Notification < ApplicationRecord
   def schedule_job
     SendingNotificationJob.set(wait_until: schedule_at).perform_later(notification_id: id)
   end
-
-  
 end

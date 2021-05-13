@@ -17,7 +17,6 @@ class Device < ApplicationRecord
                                  }
   scope :by_tag, ->(tag) { where("? IN (tags)", tag) unless tag.blank? }
 
-
   def badge_number
     notifications.not_canceled.unread.count
   end
