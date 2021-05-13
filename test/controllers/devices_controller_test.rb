@@ -18,7 +18,7 @@ class DevicesControllerTest < ActionDispatch::IntegrationTest
     create(:device)
     get devices_url, as: :json, headers: admin_headers
 
-    assert JSON::Validator.validate(@json_schema, json.first)
+    assert JSON::Validator.validate(@json_schema, json["data"].first)
     assert_response :success
   end
 
@@ -29,7 +29,7 @@ class DevicesControllerTest < ActionDispatch::IntegrationTest
     create(:device)
     get devices_url({ system_label: system.label }), as: :json, headers: admin_headers
     assert_response :success
-    assert_equal json.size, 1
+    assert_equal json["data"].size, 1
   end
 
   test 'should get index filtered by provider_label' do
@@ -39,7 +39,7 @@ class DevicesControllerTest < ActionDispatch::IntegrationTest
     create(:device)
     get devices_url({ provider_label: provider.label }), as: :json, headers: admin_headers
     assert_response :success
-    assert_equal json.size, 1
+    assert_equal json["data"].size, 1
   end
 
   test 'should get index filtered by external_identifier' do
@@ -48,7 +48,7 @@ class DevicesControllerTest < ActionDispatch::IntegrationTest
     create(:device)
     get devices_url({ external_identifier: d1.external_identifier }), as: :json, headers: admin_headers
     assert_response :success
-    assert_equal json.size, 1
+    assert_equal json["data"].size, 1
   end
 
   test 'should get index paginated' do
@@ -58,9 +58,14 @@ class DevicesControllerTest < ActionDispatch::IntegrationTest
     d4 = create(:device)
     get devices_url({ page: 2, per_page: 2 }), as: :json, headers: admin_headers
     assert_response :success
-    assert_equal 2, json.size
-    assert json.map { |d| d['id'] }.include?(d3.id)
-    assert json.map { |d| d['id'] }.include?(d4.id)
+    assert_equal 2, json["data"].size
+    assert json["data"].map { |d| d['id'] }.include?(d3.id)
+    assert json["data"].map { |d| d['id'] }.include?(d4.id)
+
+    # Paging
+    assert_equal json["paging"]["current_page"], 2
+    assert_equal json["paging"]["total_count"], 4
+    assert_equal json["paging"]["per_page"], 2
   end
 
   test 'should create device' do
@@ -83,7 +88,9 @@ class DevicesControllerTest < ActionDispatch::IntegrationTest
   test 'should show device' do
     device = create(:device)
     get device_url(device), as: :json, headers: device_headers(device)
+
     assert JSON::Validator.validate(@json_schema, json)
+
     assert_response :success
   end
 

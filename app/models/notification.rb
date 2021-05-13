@@ -12,9 +12,12 @@ class Notification < ApplicationRecord
   after_commit :schedule_job, on: [:create]
   after_commit :create_dependents, on: [:create], if: proc { destiny.instance_of?(Topic) }
 
-  validates_presence_of :body, if: proc { parent_id.nil? }
-  validates_presence_of :body_type, if: proc { parent_id.nil? }
+  # validates_presence_of :body, if: proc { parent_id.nil? }
+  # validates_presence_of :body_type, if: proc { parent_id.nil? }
   validates_presence_of :title, if: proc { parent_id.nil? }
+
+  scope :not_canceled, -> { where('status != ?', Notification.statuses[:canceled]) }
+  scope :unread, -> { where(read: false) }
 
   def title
     return parent.title if parent_id.present?
@@ -52,6 +55,19 @@ class Notification < ApplicationRecord
     read_attribute(:tag)
   end
 
+  def push_data
+    {
+      pushbox: {
+        notification_id: id
+      },
+      extra_data: data
+    }
+  end
+
+  def set_to_run_now
+    self.schedule_at = Time.now
+  end
+
   private
 
   def set_status
@@ -74,4 +90,6 @@ class Notification < ApplicationRecord
   def schedule_job
     SendingNotificationJob.set(wait_until: schedule_at).perform_later(notification_id: id)
   end
+
+  
 end

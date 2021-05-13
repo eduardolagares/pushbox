@@ -6,7 +6,11 @@ Rails.application.routes.draw do
 
       resources :devices, except: [:destroy] do
         resources :subscriptions, except: [:update], module: 'devices'
-        resources :notifications, only: %i[create index], module: 'devices'
+        resources :notifications, only: %i[create index], module: 'devices' do
+          member do
+            post :read
+          end
+        end
       end
 
       resources :topics, except: [:destroy] do

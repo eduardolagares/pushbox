@@ -10,27 +10,28 @@ class DevicesController < ApplicationController
                      .page(params[:page] || 1)
                      .per(params[:per_page] || Kaminari.config.default_per_page)
 
-    render json: @devices
+
+    render json: {data: @devices, paging: meta_data(@devices)}
   end
 
   # GET /devices/1
   def show
     authorize @device, :show?
-    render json: @device
+    render json: @device, methods: :badge_number
   end
 
   # POST /devices
   def create
     current_device = Device.where(provider_identifier: create_device_params[:provider_identifier],
                                   provider_id: create_device_params[:provider_id]).take
-    render json: current_device, status: status, location: @device and return if current_device
+    render json: current_device, methods: :badge_number, status: status, location: @device and return if current_device
 
     @device = Device.new(create_device_params)
     authorize @device, :create?
 
     status = @device.id.nil? ? :created : 200
     if @device.save
-      render json: @device, status: status, location: @device
+      render json: @device, methods: :badge_number, status: status, location: @device
     else
       render json: @device.errors, status: :unprocessable_entity
     end
@@ -40,7 +41,7 @@ class DevicesController < ApplicationController
   def update
     authorize @device, :update?
     if @device.update(update_device_params)
-      render json: @device
+      render json: @device, methods: :badge_number
     else
       render json: @device.errors, status: :unprocessable_entity
     end

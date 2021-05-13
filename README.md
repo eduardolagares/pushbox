@@ -54,3 +54,11 @@ Now that you has the api_key, send it in all of your requests using the header *
 # Documentation
 
 Swagger API docs (https://app.swaggerhub.com/apis-docs/eduardolagares5/Pushbox/0.0.2)
+
+# Sending notifications
+
+curl --header "Content-Type: application/json" --header "X-PushBox-Api-Key: CpmKey3TWF7tV0IeNBp8SnUI4fw9XU8l" \
+  --request POST \
+  --data '{ "title": "Novo evento", "tag": "tag1", "data":{"tipo":"lista"}, "body":"", "body_type":"text" }' \
+  http://0.0.0.0:3000/api/v1/devices/1/notifications
+

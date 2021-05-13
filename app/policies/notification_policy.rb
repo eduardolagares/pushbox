@@ -8,4 +8,8 @@ class NotificationPolicy < ApplicationPolicy
   def create?
     user&.admin?
   end
+
+  def read?
+    record.destiny == device
+  end
 end

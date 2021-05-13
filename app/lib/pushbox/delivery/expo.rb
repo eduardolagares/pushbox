@@ -17,7 +17,7 @@ module Pushbox
             sound: 'default',
             title: notification.title || '',
             body: notification.body || '',
-            data: notification.data || {}
+            data: notification.push_data
           }
         end
         self.payload

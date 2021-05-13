@@ -16,4 +16,9 @@ class Device < ApplicationRecord
                                    where(external_identifier: external_identifier) unless external_identifier.blank?
                                  }
   scope :by_tag, ->(tag) { where("? IN (tags)", tag) unless tag.blank? }
+
+
+  def badge_number
+    notifications.not_canceled.unread.count
+  end
 end

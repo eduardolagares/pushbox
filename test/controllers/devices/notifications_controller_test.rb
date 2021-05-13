@@ -9,7 +9,7 @@ module Devices
       get device_notifications_url(device, nil), headers: device_headers(device)
 
       assert_response 200
-      assert_equal json.size, 3
+      assert_equal json["data"].size, 3
     end
 
     test "should list all device notifications paginated" do
@@ -20,8 +20,13 @@ module Devices
       get device_notifications_url(device, nil), params: { page: 2, per_page: 2 }, headers: device_headers(device)
 
       assert_response 200
-      assert_equal json.size, 1
-      assert_equal json[0]["id"], n1.id # Default sort is created_at DESC
+      assert_equal 1, json["data"].size
+      assert_equal json["data"][0]["id"], n1.id # Default sort is created_at DESC
+
+      # Paging
+      assert_equal json["paging"]["current_page"], 2
+      assert_equal json["paging"]["total_count"], 3
+      assert_equal json["paging"]["per_page"], 2
     end
 
     test "should create a notification" do

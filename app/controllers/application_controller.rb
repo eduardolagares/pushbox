@@ -1,6 +1,7 @@
 class ApplicationController < ActionController::API
   include Pundit
   include Auth
+  include ::KaminariApiMetaData
 
   rescue_from Pundit::NotAuthorizedError, with: :rescue_pundit
 

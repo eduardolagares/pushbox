@@ -51,3 +51,5 @@ gem "pg", "~> 1.2"
 gem 'pundit', '~> 2.1'
 
 gem "rails-healthcheck", "~> 1.3"
+
+gem "kaminari-api-meta-data", require: "kaminari_api_meta_data"
